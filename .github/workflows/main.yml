@@ -40,4 +40,4 @@ jobs:
 
           docker build -t myapp:latest .
 
-          docker run -d --name myapp -p 8001:8001 myapp:latest
+          docker run -d --name myapp -p 8000:8000 myapp:latest
