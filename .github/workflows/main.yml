@@ -29,7 +29,7 @@ jobs:
         host: ${{ secrets.SSH_HOST }}      # Server public IP
         username: ${{ secrets.SSH_USER }}  # SSH user
         key: ${{ secrets.SSH_KEY }}        # Private key secret
-        port: 39456                         # SSH port if not 22
+        port: 22                         # SSH port if not 22
         script: |
           mkdir -p /home/${{ secrets.SSH_USER }}/myapp
           cd /home/${{ secrets.SSH_USER }}/myapp
