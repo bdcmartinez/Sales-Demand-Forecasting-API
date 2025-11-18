@@ -31,8 +31,7 @@ jobs:
         key: ${{ secrets.SSH_KEY }}        # Private key secret
         port: 22                         # SSH port if not 22
         script: |
-          mkdir -p /home/${{ secrets.SSH_USER }}/myapp
-          cd /home/${{ secrets.SSH_USER }}/myapp
+          cd /home/${{ secrets.SSH_USER }}/myapp/Sales-Demand-Forecasting-API
 
           git pull || echo "Repo not cloned yet"
 
