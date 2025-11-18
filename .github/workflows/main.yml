@@ -20,22 +20,25 @@ jobs:
     - name: Install dependencies
       run: pip install -r requirements.txt
 
-    - name: Build Docker image
+    - name: Build Docker image (optional)
       run: docker build -t myapp:latest .
 
     - name: Deploy to Ubuntu server
       uses: appleboy/ssh-action@v1.2.0
       with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USER }}
-        key: ${{ secrets.SSH_KEY }}
+        host: ${{ secrets.SSH_HOST }}      # Server public IP
+        username: ${{ secrets.SSH_USER }}  # SSH user
+        key: ${{ secrets.SSH_KEY }}        # Private key secret
+        port: 39456                         # SSH port if not 22
         script: |
-          echo "Stopping old container..."
+          mkdir -p /home/${{ secrets.SSH_USER }}/myapp
+          cd /home/${{ secrets.SSH_USER }}/myapp
+
+          git pull || echo "Repo not cloned yet"
+
           docker stop myapp || true
           docker rm myapp || true
 
-          echo "Copying Docker image from CI to server..."
-          docker save myapp:latest | docker load
+          docker build -t myapp:latest .
 
-          echo "Starting new container..."
           docker run -d --name myapp -p 8001:8001 myapp:latest
